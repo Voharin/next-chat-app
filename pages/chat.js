@@ -18,6 +18,7 @@ const Chat = () => {
   const [username, setUsername] = useState("");
   const [channel, setChannel] = useState("Channel");
   const [channelData, setChannelData] = useState([]);
+  const [messages, setMessages] = useState([]);
 const usersInChannel = channelData.usersInChannel?.map((user) => {
     return user.user_name;
   });
