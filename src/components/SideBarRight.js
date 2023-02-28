@@ -5,22 +5,14 @@ import { List, ListItem, Container, Heading } from "@chakra-ui/react";
 import { useStore } from "../Context/Store";
 
 export default function SideBarRight({ channelNames }) {
-  console.log("store=>", useStore());
-
-  let channel = useStore().channel;
-
-  console.log("channelNames", channelNames);
+  let { state, dispatch } = useStore();
 
   const [selected, setSelected] = useState(false);
 
   const handleChannel = (e) => {
-    if (e.target.innerText === "General") {
+    if (e.target.innerText) {
       setSelected(!selected);
-      channel = "General";
-    } else if (e.target.innerText === "Random") {
-      setSelected(!selected);
-      channel = "Random";
-      localStorage.setItem("channel", "Random");
+      dispatch({ type: "SET_CHANNEL", payload: e.target.innerText });
     }
   };
 
@@ -35,6 +27,8 @@ export default function SideBarRight({ channelNames }) {
           padding={"2.5"}
           cursor={"pointer"}
           alignContent={"center"}
+        
+          
         >
           {channelNames?.map((channel) => {
             return (
@@ -42,8 +36,8 @@ export default function SideBarRight({ channelNames }) {
                 onClick={handleChannel}
                 key={channel}
                 _hover={{ bg: "gray.100" }}
-                _selected={{ bg: "gray.200" }}
-                _focus={{ bg: "gray.100" }}
+                _selected={{ bg: "gray.100" }}
+            
                 alignItems={"center"}
               >
                 {channel}

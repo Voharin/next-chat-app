@@ -1,6 +1,7 @@
 import io from "socket.io";
 import poll from "../../lib/db";
 import { useContext } from "react";
+import { Server } from "socket.io";
 
 export default async (req, res) => {
   //get channels from database with socket.io and send to client
@@ -9,6 +10,8 @@ export default async (req, res) => {
   //     const channels = result.rows;
   //     io.emit("channels", channels);
   //   });
+
+
 
   if (req.method === "POST") {
     const { channel } = req.body;
@@ -28,7 +31,7 @@ export default async (req, res) => {
     );
     const usersInChannel = getUsersInChannel.rows;
 
-    console.log("UsersInChannel", usersInChannel);
+
 
     res.status(200).json({ usersInChannel, channelNames });
   }

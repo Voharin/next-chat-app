@@ -4,15 +4,20 @@ import {
   Avatar,
   ConversationList,
 } from "@chatscope/chat-ui-kit-react";
+import { useStore } from "../Context/Store";
 
 export default function SideBar({ users }) {
-  console.log("usersInChannel", users);
+    let { state, dispatch } = useStore();
+    console.log("state", state);
+    const handleClick = (e) => {
+        console.log("e", e.target.innerText);
+    }
   return (
     <Sidebar position="left" scrollable={true}>
       <ConversationList>
         {users?.map((user) => {
           return (
-            <Conversation name={user} info="Online">
+            <Conversation name={user} info="Online" onClick={handleClick}>
               <Avatar name={user} status="online" />
             </Conversation>
           );
@@ -20,4 +25,10 @@ export default function SideBar({ users }) {
       </ConversationList>
     </Sidebar>
   );
+}
+
+export function getInitialProps({ query }) {
+
+
+  return { query };
 }

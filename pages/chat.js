@@ -13,23 +13,25 @@ import {
 import { Box, Container } from "@chakra-ui/react";
 import SideBar from "../src/components/Sidebar";
 import SideBarRight from "../src/components/SideBarRight";
+import io from "socket.io-client";
+import { useStore } from "../src/Context/Store";
 
 const Chat = () => {
+  const { state, dispatch } = useStore();
   const [username, setUsername] = useState("");
-  const [channel, setChannel] = useState("Channel");
   const [channelData, setChannelData] = useState([]);
   const [messages, setMessages] = useState([]);
-const usersInChannel = channelData.usersInChannel?.map((user) => {
+  const usersInChannel = channelData.usersInChannel?.map((user) => {
     return user.user_name;
   });
 
-console.log("channelData", usersInChannel);
-
-
   useEffect(() => {
-    const channelLog = localStorage.getItem("channel");
-    setChannel(channelLog);
-    console.log("channel=>", channel);
+    // let socket;
+    // socket = io();
+    // socket.on("connect", () => {
+    //   console.log("connected");
+    // });
+
 
     fetch("/api/channel", {
       method: "POST",
@@ -37,7 +39,7 @@ console.log("channelData", usersInChannel);
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        channel: channel,
+        channel: state.channel,
       }),
     }).then((res) => {
       if (res.status === 200) {
@@ -46,16 +48,13 @@ console.log("channelData", usersInChannel);
         });
       }
     });
-  
-
-  }, [channel]);
+  }, [state.channel]);
 
   return (
-    <Container minW={"8xl"}>
-      <Box as="div" h={"3xl"} padding={"2.5"}>
+    <Container minW={"full"} minH={"full"}>
+      <Box as="div" h={"6xl"} padding={"1.5"} margin={"-0.5"}>
         <MainContainer>
-          <SideBar users= {usersInChannel}  />
-
+          <SideBar users={usersInChannel} />
           <ChatContainer>
             <ConversationHeader>
               <ConversationHeader.Content userName="John Doe" info="Online" />
@@ -75,12 +74,19 @@ console.log("channelData", usersInChannel);
               />
             </MessageList>
             <MessageInput
+              style={{
+                backgroundColor: "white",
+                border: "1px solid #e2e8f0",
+                borderRadius: "0.375rem",
+                padding: "0.5rem 1rem",
+                color: "teal.500",
+                fontSize: "1rem",
+                fontWeight: "400",
+                lineHeight: "1.5",
+              }}
               placeholder="Type message here"
               onSend={(message) => {
-                setMessages([
-                  ...messages,
-                  { sender: "Me", message: message, sentTime: Date.now() },
-                ]);
+                dispatch({ type: "SEND_MESSAGE", payload: message });
               }}
             />
           </ChatContainer>
