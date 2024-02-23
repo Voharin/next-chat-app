@@ -1,6 +1,6 @@
 import poll from "../../lib/db";
 
-export default async (req, res) => {
+export  const login = async (req, res)=>{
   if (req.method === "POST") {
     const { username } = req.body;
     const result = await poll.query(

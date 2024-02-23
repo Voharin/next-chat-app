@@ -27,8 +27,6 @@ export default function SideBarRight({ channelNames }) {
           padding={"2.5"}
           cursor={"pointer"}
           alignContent={"center"}
-        
-          
         >
           {channelNames?.map((channel) => {
             return (
@@ -37,7 +35,6 @@ export default function SideBarRight({ channelNames }) {
                 key={channel}
                 _hover={{ bg: "gray.100" }}
                 _selected={{ bg: "gray.100" }}
-            
                 alignItems={"center"}
               >
                 {channel}

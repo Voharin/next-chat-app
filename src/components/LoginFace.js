@@ -15,10 +15,16 @@ import {
   InputGroup,
   TagLabel,
   StatLabel,
+  Stat,
+  Tag,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import GoogleButton from "./GoogleButton";
+// import {useSession} from 'next-auth/react'
 
-const LoginFace = () => {
+const LoginFace = (props) => {
+  // const {session} = useSession();
+  // console.log("session", session);
   const router = useRouter();
   const [username, setUsername] = useState("");
 
@@ -60,7 +66,7 @@ const LoginFace = () => {
         <Image
           w={"xl"}
           src="https://img.freepik.com/free-vector/laptop-with-social-media-icons_24877-56557.jpg?w=1380&t=st=1677159878~exp=1677160478~hmac=787d64b7dcd79a5f7a3b409e5a36bda93d106459dc9fedb26ed4a9fcc0effcc4"
-          alt="Green double couch with wooden legs"
+          alt="Chat login"
           borderRadius="lg"
         />
         <Stack
@@ -69,9 +75,8 @@ const LoginFace = () => {
           mt="6"
           spacing="2"
           justifyContent={"center"}
-          display={"flex"}
-        >
-          <Heading size="md">Pick it Up! a Username</Heading>
+          display={"flex"}>
+          <Heading size="md">Pick it Up! A Username</Heading>
           <Input
             onKeyUp={(e) => {
               if (e.key === "Enter") {
@@ -89,15 +94,53 @@ const LoginFace = () => {
         </Stack>
       </CardBody>
 
-      <CardFooter justify={"center"}>
-        <ButtonGroup spacing="2">
+      <CardFooter alignItems={"center"} gap={2}  flexDirection={"column"}>
+        <ButtonGroup gap={2} flexDirection={"column"} alignItems={"center"}>
           <Button variant="solid" color="messenger" onClick={handleClick}>
             Start Chat
           </Button>
+          <GoogleButton />
+  
+          {/* <Button variant="outline" color="blue.200" onClick={
+            () => {
+              router.push('/api/auth/signin')
+            }
+          } >
+            with Google
+          </Button> */}
         </ButtonGroup>
+
+      
+        <Divider mt="4" />
+ 
+        <Text> By clicking the button, you are agreeing to our{" "} </Text> 
+          <Tag>
+          <TagLabel color="blue.500">
+            Terms and Services</TagLabel></Tag>
+            <Stat color="blue.500"> 
+            <StatLabel>Privacy Policy</StatLabel>
+          </Stat>
+  
+            
       </CardFooter>
     </Card>
   );
 };
+
+export async function getServerSideProps(context) {
+ const session = await getSession(context)
+ if (session) {
+   return {
+     redirect: {
+       destination: '/chat',
+       permanent: false,
+     },
+   }
+ }
+ return {
+   props: { session },
+ }
+}
+
 
 export default LoginFace;

@@ -5,7 +5,10 @@ import {
   ModalHeader,
   ModalFooter,
   ModalBody,
+  ModalCloseButton,
+Button,
 } from "@chakra-ui/react";
+
 
 export const Modalized = (props) => {
 
@@ -18,9 +21,8 @@ export const Modalized = (props) => {
         <ModalHeader>{props.title}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Lorem count={2} />
+          {/* <Lorem count={2} /> */}
         </ModalBody>
-
         <ModalFooter>
           <Button color="blue" mr={3} onClick={onClose}>
             Close

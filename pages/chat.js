@@ -89,6 +89,8 @@ const Chat = () => {
                 dispatch({ type: "SEND_MESSAGE", payload: message });
               }}
             />
+
+            
           </ChatContainer>
           <SideBarRight channelNames={channelData.channelNames} />
         </MainContainer>

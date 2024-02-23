@@ -3,17 +3,14 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
 
- 
-
-webpack: (config, { isServer }) => {
+  webpack: (config, { isServer }) => {
     if (!isServer) {
-      config.resolve.fallback.fs = false
-      config.devtool = 'source-map'
+      config.resolve.fallback.fs = false;
+      config.devtool = "source-map";
     }
 
-    return config
-  }
+    return config;
+  },
+};
 
-}
-
-module.exports = nextConfig
+module.exports = nextConfig;

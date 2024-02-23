@@ -2,13 +2,10 @@ import "../styles/globals.css";
 import MainLayout from "../src/components/Layout";
 import { extendTheme } from "@chakra-ui/react";
 import { ChakraProvider } from "@chakra-ui/react";
-import {StoreProvider} from "../src/Context/Store";
-
-
+import { StoreProvider } from "../src/Context/Store";
+import {SessionProvider} from 'next-auth/react'
 
 function MyApp({ Component, pageProps }) {
-
-
   const colors = {
     brand: {
       50: "#f5f5f5",
@@ -26,7 +23,6 @@ function MyApp({ Component, pageProps }) {
   };
 
   const config = {
-    
     initialColorMode: "light",
     useSystemColorMode: false,
     matchMedia: {
@@ -36,18 +32,17 @@ function MyApp({ Component, pageProps }) {
   };
 
   const components = {
- 
     Button: {
       baseStyle: {
         fontWeight: "semibold",
       },
       variants: {
         "with-shadow": {
-          bg: "green.400",
+          bg: "green.300",
           boxShadow: "0 0 2px 2px #efdfde",
         },
         solid: (props) => ({
-          bg: props.colorMode === "dark" ? "green.300" : "purple.500",
+          bg: props.colorMode === "light" ? "green.300" : "purple.500",
         }),
       },
       defaultProps: {
@@ -59,15 +54,16 @@ function MyApp({ Component, pageProps }) {
   const theme = extendTheme({ colors, fonts, config, components });
 
   return (
-      <StoreProvider>
-    <ChakraProvider theme={theme} >
-      <MainLayout>
-        <Component {...pageProps} />
-      </MainLayout>
-    </ChakraProvider>
+    <SessionProvider session={pageProps.session}>
+    <StoreProvider>
+      <ChakraProvider theme={theme}>
+        <MainLayout>
+          <Component {...pageProps} />
+        </MainLayout>
+      </ChakraProvider>
     </StoreProvider>
+    </SessionProvider>
   );
 }
-
 
 export default MyApp;
